@@ -1,15 +1,22 @@
 const express = require('express');
+const cors = require('cors'); // Importe o cors
 const { Pool } = require('pg');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+  },
 });
 
 app.use(express.json());
